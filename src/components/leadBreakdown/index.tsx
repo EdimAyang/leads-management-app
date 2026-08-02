@@ -8,26 +8,51 @@ import {
 } from "lucide-react";
 import DashboardCard from "@/components/dashboradCard/index";
 import styled from "styled-components";
-import { useSearchParams } from "react-router-dom";
+import { useDashboard } from "@/hooks/useDashboard";
 
 const LeadBreakdown = () => {
-  const [params, setParams] = useSearchParams();
+  const { data } = useDashboard();
+
   return (
     <section>
       <Title>Lead Breakdown</Title>
 
       <Grid>
-        <DashboardCard title="Verified" value={0} icon={BadgeCheck} />
+        <DashboardCard
+          title="Verified"
+          value={data?.summary.VERIFIED ?? 0}
+          icon={BadgeCheck}
+        />
 
-        <DashboardCard title="Follow Up" value={0} icon={PhoneCall} />
+        <DashboardCard
+          title="Follow Up"
+          value={data?.summary.FOLLOW_UP ?? 0}
+          icon={PhoneCall}
+        />
 
-        <DashboardCard title="Inactive" value={0} icon={Ban} />
+        <DashboardCard
+          title="Inactive"
+          value={data?.summary.INACTIVE ?? 0}
+          icon={Ban}
+        />
 
-        <DashboardCard title="Hotels" value={0} icon={Hotel} />
+        <DashboardCard
+          title="Hotels"
+          value={data?.categories.HOTEL ?? 0}
+          icon={Hotel}
+        />
 
-        <DashboardCard title="Restaurants" value={0} icon={UtensilsCrossed} />
+        <DashboardCard
+          title="Restaurants"
+          value={data?.categories.RESTAURANT ?? 0}
+          icon={UtensilsCrossed}
+        />
 
-        <DashboardCard title="Bakeries" value={0} icon={Croissant} />
+        <DashboardCard
+          title="Bakeries"
+          value={data?.categories.BAKERY ?? 0}
+          icon={Croissant}
+        />
       </Grid>
     </section>
   );

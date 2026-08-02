@@ -117,13 +117,8 @@ export const SidebarContainer = styled.aside<SidebarProps>`
 
   z-index: 1000;
 
-  @media (max-width: 768px) {
-    width: 260px;
-
-    transform: ${({ mobileOpen }) =>
-      mobileOpen ? "translateX(0)" : "translateX(-100%)"};
-
-     transition: transform 0.25s ease;
+   @media (max-width: 768px) {
+    display: none;
   }
 `;
 

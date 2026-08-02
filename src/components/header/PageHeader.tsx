@@ -17,7 +17,7 @@ const PageHeader = () => {
       </Left>
 
       <Right>
-        <AddButton onClick={() => navigate("/leads/new")}>
+        <AddButton onClick={() => navigate("/leads/createLeadPage")}>
           <Plus size={18} />
 
           Add Lead

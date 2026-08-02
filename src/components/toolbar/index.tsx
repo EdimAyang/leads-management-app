@@ -1,27 +1,61 @@
-import { Filter, RotateCcw, Search, Plus } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Filter, RotateCcw, Search } from "lucide-react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import FilterPopover from "./FilterPopover";
 import { useSearchParams } from "react-router-dom";
+import { useDebounce } from "@/hooks/useDebounce";
 
-export default function Toolbar() {
+type FilterValues = {
+  category?: string;
+  status?: string;
+  staffName?: string;
+  location?: string;
+};
+
+type ToolbarProps = {
+  filters: FilterValues;
+
+  onApplyFilters: (filters: FilterValues) => void;
+
+  onResetFilters: () => void;
+};
+
+export default function Toolbar({
+  filters,
+  onApplyFilters,
+  onResetFilters,
+}: ToolbarProps) {
   const [open, setOpen] = useState(false);
 
-  const [params, setParams] = useSearchParams();
-  const page = Number(params.get("page")) || 1;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get("q") ?? "");
 
-  const q = params.get("q") ?? "";
+  const debouncedSearch = useDebounce(search, 500);
 
-  const status = params.get("status") ?? undefined;
-  const navigate = useNavigate();
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+
+    if (debouncedSearch.trim()) {
+      params.set("q", debouncedSearch);
+    } else {
+      params.delete("q");
+    }
+
+    params.set("page", "1");
+
+    setSearchParams(params);
+  }, [debouncedSearch]);
 
   return (
     <Container>
       <SearchBox>
         <Search size={18} />
 
-        <Input placeholder="Search business..." />
+        <Input
+          value={search}
+          placeholder="Search business..."
+          onChange={(e) => setSearch(e.target.value)}
+        />
       </SearchBox>
 
       <FilterWrapper>
@@ -30,10 +64,21 @@ export default function Toolbar() {
           Filters
         </FilterButton>
 
-        {open && <FilterPopover onClose={() => setOpen(false)} />}
+        {open && (
+          <FilterPopover
+            initialValues={filters}
+            onApply={onApplyFilters}
+            onReset={onResetFilters}
+            onClose={() => setOpen(false)}
+          />
+        )}
       </FilterWrapper>
 
-      <ResetButton>
+      <ResetButton
+        onClick={() => {
+          onResetFilters();
+        }}
+      >
         <RotateCcw size={18} />
         Reset
       </ResetButton>

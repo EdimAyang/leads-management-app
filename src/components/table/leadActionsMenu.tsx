@@ -1,17 +1,27 @@
 import styled from "styled-components";
-import { Eye, Pencil, Trash2, MoreVertical, RefreshCw } from "lucide-react";
+import { Eye, Pencil, MoreVertical } from "lucide-react";
 
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 import { Lead } from "@/types/leads.types";
 
 type Props = {
   lead: Lead;
+  onView: () => void;
+  onEdit: () => void;
+  onDelete?: () => void;
+  onUpdateStatus?: () => void;
 };
 
-const LeadActionsMenu = ({ lead }: Props) => {
-  const navigate = useNavigate();
+const LeadActionsMenu = ({
+  // lead,
+  onView,
+  onEdit,
+  // onDelete,
+  // onUpdateStatus,
+}: Props) => {
+  // const navigate = useNavigate();
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -37,36 +47,25 @@ const LeadActionsMenu = ({ lead }: Props) => {
 
       {open && (
         <Menu>
-          <MenuItem onClick={() => navigate(`/leads/${lead.id}`)}>
+          <MenuItem onClick={onView}>
             <Eye size={18} />
             View
           </MenuItem>
 
-          <MenuItem onClick={() => navigate(`/leads/${lead.id}/edit`)}>
+          <MenuItem onClick={onEdit}>
             <Pencil size={18} />
             Edit
           </MenuItem>
-
-          <MenuItem
-            onClick={() => {
-              // We'll connect this later
-              console.log("Update Status", lead.id);
-            }}
-          >
+          {/* 
+          <MenuItem onClick={onUpdateStatus}>
             <RefreshCw size={18} />
             Update Status
           </MenuItem>
 
-          <MenuItem
-            danger
-            onClick={() => {
-              // We'll connect the dialog later
-              console.log("Delete", lead.id);
-            }}
-          >
+          <MenuItem danger onClick={onDelete}>
             <Trash2 size={18} />
             Delete
-          </MenuItem>
+          </MenuItem> */}
         </Menu>
       )}
     </Container>

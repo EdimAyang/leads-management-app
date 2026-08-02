@@ -3,8 +3,7 @@ import styled from "styled-components";
 import { useLayoutStore } from "@/store/sidebar.store";
 import Sidebar from "@/components/sidebar";
 import Header from "@/components/header/DashboardHeader";
-
-
+import BottomNavigation from "@/components/BottomNav";
 
 export default function DashboardLayout() {
   const collapsed = useLayoutStore((state) => state.collapsed);
@@ -19,6 +18,8 @@ export default function DashboardLayout() {
         <Main>
           <Outlet />
         </Main>
+
+        <BottomNavigation />
       </Content>
     </LayoutWrapper>
   );
@@ -44,6 +45,7 @@ export const Content = styled.div<ContentProps>`
 
   display: flex;
   flex-direction: column;
+  min-width: 0;
 
   @media (max-width: 768px) {
     margin-left: 0;
@@ -54,5 +56,8 @@ export const Main = styled.main`
   flex: 1;
   padding: 24px;
   overflow-y: auto;
+  min-width: 0;
+   @media (max-width: 768px) {
+    padding-bottom: 120px;
+  }
 `;
-

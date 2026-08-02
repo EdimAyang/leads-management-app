@@ -8,11 +8,7 @@ export type Status =
   | "NOT_INTERESTED"
   | "INACTIVE";
 
-
- export type LeadCategory =
-  | "HOTEL"
-  | "RESTAURANT"
-  | "BAKERY";
+export type LeadCategory = "HOTEL" | "RESTAURANT" | "BAKERY";
 
 export type LeadStatus =
   | "NEW"
@@ -39,6 +35,7 @@ export interface Lead {
 
   staffName: string;
 
+  notes: string;
   location: string;
 
   createdAt: string;
@@ -59,6 +56,24 @@ export interface LeadListResponse {
   data: Lead[];
 
   pagination: LeadPagination;
+}
+
+export interface LeadDetailsResponse {
+  success: boolean;
+    message: string;
+    data: {
+        id: string;
+        businessName: string;
+        phoneNumber: string;
+        address: string;
+        category: string;
+        status  : string; 
+        staffName: string;
+        notes: string | null,
+        location: string,
+        createdAt: string,
+        updatedAt : string  
+    }
 }
 
 export interface LeadQuery {

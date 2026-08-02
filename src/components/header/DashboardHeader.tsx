@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Menu } from "lucide-react";
+// import { Menu } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { useLayoutStore } from "@/store/layout.store";
 
@@ -11,9 +11,9 @@ const titles: Record<string, string> = {
 const  Header = ()=> {
   const location = useLocation();
 
- const toggleMobileSidebar = useLayoutStore(
-  (state) => state.toggleMobileSidebar
-);
+//  const toggleMobileSidebar = useLayoutStore(
+//   (state) => state.toggleMobileSidebar
+// );
 
   const mobileOpen = useLayoutStore((state) => state.mobileOpen);
 
@@ -25,9 +25,9 @@ console.log(mobileOpen);
   return (
     <HeaderContainer>
       <Left>
-        <MenuButton onClick={()=>toggleMobileSidebar()}>
+        {/* <MenuButton onClick={()=>toggleMobileSidebar()}>
           <Menu size={22} />
-        </MenuButton>
+        </MenuButton> */}
 
         <Title>{title}</Title>
       </Left>
