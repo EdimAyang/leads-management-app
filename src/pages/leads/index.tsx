@@ -75,35 +75,35 @@ const LeadsPage = () => {
     setSearchParams(params);
   };
 
-  const handleApplyFilters = (values: FilterValues) => {
-    const params = new URLSearchParams(searchParams);
+  // const handleApplyFilters = (values: FilterValues) => {
+  //   const params = new URLSearchParams(searchParams);
 
-    Object.entries(values).forEach(([key, value]) => {
-      if (value) {
-        params.set(key, value);
-      } else {
-        params.delete(key);
-      }
-    });
+  //   Object.entries(values).forEach(([key, value]) => {
+  //     if (value) {
+  //       params.set(key, value);
+  //     } else {
+  //       params.delete(key);
+  //     }
+  //   });
 
-    // Return to first page when filters change
-    params.set("page", "1");
+  //   // Return to first page when filters change
+  //   params.set("page", "1");
 
-    setSearchParams(params);
-  };
+  //   setSearchParams(params);
+  // };
 
-  const handleResetFilters = () => {
-    const params = new URLSearchParams(searchParams);
+  // const handleResetFilters = () => {
+  //   const params = new URLSearchParams(searchParams);
 
-    params.delete("category");
-    params.delete("status");
-    params.delete("staffName");
-    params.delete("location");
+  //   params.delete("category");
+  //   params.delete("status");
+  //   params.delete("staffName");
+  //   params.delete("location");
 
-    params.set("page", "1");
+  //   params.set("page", "1");
 
-    setSearchParams(params);
-  };
+  //   setSearchParams(params);
+  // };
 
   return (
     <>
@@ -129,8 +129,6 @@ const LeadsPage = () => {
             staffName: query.staffName,
             location: query.location,
           }}
-          onApplyFilters={handleApplyFilters}
-          onResetFilters={handleResetFilters}
         />
 
         {data ? (
