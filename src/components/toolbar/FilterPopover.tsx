@@ -5,15 +5,21 @@ import { FilterValues } from "@/pages/leads";
 type Props = {
   initialValues: FilterValues;
 
-  onApply: (filters: FilterValues) => void;
+  onChange: (key: keyof FilterValues, value?: string) => void;
 
   onReset: () => void;
 
   onClose: () => void;
 };
 
-const FilterPopover = ({ onClose, onApply, onReset, initialValues }: Props) => {
-  const [filters, setFilters] = useState(initialValues);
+const FilterPopover = ({
+  onClose,
+  onChange,
+  onReset,
+  initialValues,
+}: Props) => {
+ 
+
   return (
     <Container>
       <Heading>Filters</Heading>
@@ -22,13 +28,11 @@ const FilterPopover = ({ onClose, onApply, onReset, initialValues }: Props) => {
         <Label>Category</Label>
 
         <Select
-          value={filters.category ?? ""}
-          onChange={(e) =>
-            setFilters((prev) => ({
-              ...prev,
-              category: e.target.value || undefined,
-            }))
-          }
+          value={initialValues.category ?? ""}
+          onChange={(e) => {
+            onChange("category", e.target.value || undefined)
+            onClose()
+          }}
         >
           <option value="">All Categories</option>
           <option value="HOTEL">Hotel</option>
@@ -41,13 +45,11 @@ const FilterPopover = ({ onClose, onApply, onReset, initialValues }: Props) => {
         <Label>Status</Label>
 
         <Select
-          value={filters.status ?? ""}
-          onChange={(e) =>
-            setFilters((prev) => ({
-              ...prev,
-              status: e.target.value || undefined,
-            }))
-          }
+          value={initialValues.status ?? ""}
+          onChange={(e) => {
+            onChange("status", e.target.value || undefined)
+            onClose()
+          }}
         >
           <option value="">All Statuses</option>
           <option value="NEW">New</option>
@@ -65,13 +67,11 @@ const FilterPopover = ({ onClose, onApply, onReset, initialValues }: Props) => {
         <Label>Staff</Label>
 
         <Select
-          value={filters.staffName ?? ""}
-          onChange={(e) =>
-            setFilters((prev) => ({
-              ...prev,
-              staffName: e.target.value || undefined,
-            }))
-          }
+          value={initialValues.staffName ?? ""}
+          onChange={(e) =>{
+            onChange("staffName", e.target.value || undefined)
+            onClose()
+          }}
         >
           <option value="">All Staff</option>
 
@@ -87,13 +87,11 @@ const FilterPopover = ({ onClose, onApply, onReset, initialValues }: Props) => {
         <Label>Location</Label>
 
         <Select
-          value={filters.location ?? ""}
-          onChange={(e) =>
-            setFilters((prev) => ({
-              ...prev,
-              location: e.target.value || undefined,
-            }))
-          }
+          value={initialValues.location ?? ""}
+          onChange={(e) => {
+            onChange("location", e.target.value || undefined)
+            onClose()
+          }}
         >
           <option value="">All Locations</option>
 
@@ -112,7 +110,10 @@ const FilterPopover = ({ onClose, onApply, onReset, initialValues }: Props) => {
       <Footer>
         <SecondaryButton
           onClick={() => {
-            setFilters({});
+            onChange("category", undefined);
+            onChange("status", undefined);
+            onChange("staffName", undefined);
+            onChange("location", undefined);
 
             onReset();
 
@@ -121,16 +122,6 @@ const FilterPopover = ({ onClose, onApply, onReset, initialValues }: Props) => {
         >
           Reset
         </SecondaryButton>
-
-        <PrimaryButton
-          onClick={() => {
-            onApply(filters);
-
-            onClose();
-          }}
-        >
-          Apply Filters
-        </PrimaryButton>
       </Footer>
     </Container>
   );
@@ -141,13 +132,16 @@ export default FilterPopover;
 export const Container = styled.div`
   position: absolute;
 
-  top: calc(100% + 12px);
-
+  top: calc(100% + 8px);
   left: 0;
 
-  width: 340px;
+  width: 280px;
 
-  padding: 20px;
+  max-height: calc(100vh - 180px);
+
+  overflow-y: auto;
+
+  padding: 16px;
 
   border-radius: 16px;
 
@@ -155,9 +149,9 @@ export const Container = styled.div`
 
   border: 1px solid ${({ theme }) => theme.colors.border};
 
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 
-  z-index: 100;
+  z-index: 1000;
 `;
 
 export const Heading = styled.h3`

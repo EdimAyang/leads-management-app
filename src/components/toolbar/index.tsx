@@ -14,21 +14,44 @@ type FilterValues = {
 
 type ToolbarProps = {
   filters: FilterValues;
-
-  onApplyFilters: (filters: FilterValues) => void;
-
-  onResetFilters: () => void;
 };
 
 export default function Toolbar({
-  filters,
-  onApplyFilters,
-  onResetFilters,
+  filters
 }: ToolbarProps) {
   const [open, setOpen] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("q") ?? "");
+
+
+  const handleFilterChange = (key: keyof FilterValues, value?: string) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (value) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
+
+    // reset page when filtering
+    params.set("page", "1");
+
+    setSearchParams(params);
+  };
+
+  const handleResetFilters = () => {
+    const params = new URLSearchParams(searchParams);
+
+    ["category", "status", "staffName", "location"].forEach((key) => {
+      params.delete(key);
+    });
+
+    params.set("page", "1");
+
+    setSearchParams(params);
+    setOpen(false);
+  };
 
   const debouncedSearch = useDebounce(search, 500);
 
@@ -67,8 +90,8 @@ export default function Toolbar({
         {open && (
           <FilterPopover
             initialValues={filters}
-            onApply={onApplyFilters}
-            onReset={onResetFilters}
+            onChange={handleFilterChange}
+            onReset={handleResetFilters}
             onClose={() => setOpen(false)}
           />
         )}
@@ -76,7 +99,7 @@ export default function Toolbar({
 
       <ResetButton
         onClick={() => {
-          onResetFilters();
+          handleResetFilters();
         }}
       >
         <RotateCcw size={18} />
