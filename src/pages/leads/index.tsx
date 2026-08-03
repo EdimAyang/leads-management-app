@@ -113,7 +113,7 @@ const LeadsPage = () => {
         onClose={() => setDetailsOpen(false)}
         onEdit={() => {
           if (selectedLead) {
-            navigate(`/leads/${selectedLead.id}/edit`);
+            navigate(`/leads/${selectedLead.id}/editLeadPage`);
           }
         }}
       />
