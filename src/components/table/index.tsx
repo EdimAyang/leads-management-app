@@ -7,22 +7,14 @@ import styled from "styled-components";
 import { DataTableProps } from "@/types/table.types";
 import { FileSearch } from "lucide-react";
 import { Container } from "../empty";
-// import { useState } from "react";
-// import { Lead } from "@/types/leads.types";
 
 export function DataTable<T>({
   data,
   columns,
   loading,
   emptyMessage = "No records found",
+  onRowClick,
 }: DataTableProps<T>) {
-  // const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
-  // const [open, setOpen] = useState(false);
-
-  // const handleViewLead = (lead: Lead) => {
-  //   setSelectedLead(lead);
-  //   setOpen(true);
-  // };
   const table = useReactTable({
     data,
 
@@ -61,7 +53,11 @@ export function DataTable<T>({
 
         <tbody>
           {table.getRowModel().rows.map((row) => (
-            <Tr key={row.id}>
+            <Tr
+              key={row.id}
+              clickable={!!onRowClick}
+              onClick={() => onRowClick?.(row.original)}
+            >
               {row.getVisibleCells().map((cell) => (
                 <Td key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -134,8 +130,10 @@ export const Td = styled.td`
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
-export const Tr = styled.tr`
+export const Tr = styled.tr<{ clickable?: boolean }>`
   transition: background 0.2s;
+
+  cursor: ${({ clickable }) => (clickable ? "pointer" : "default")};
 
   &:hover {
     background: ${({ theme }) => theme.colors.background};

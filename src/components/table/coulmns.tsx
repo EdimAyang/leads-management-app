@@ -1,8 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Lead } from "@/types/leads.types";
-
-// import StatusBadge from "@/components/statusBadge";
-// import CategoryBadge from "@/components/statusBadge";
 import LeadActionsMenu from "../table/leadActionsMenu";
 import StatusBadge, { CategoryBadge } from "../statusBadge";
 
@@ -54,6 +51,9 @@ export const getLeadColumns = ({
     id: "actions",
     header: "Actions",
     enableSorting: false,
+    size: 70,
+    minSize: 70,
+    maxSize: 70,
     cell: ({ row }) => (
       <LeadActionsMenu
         lead={row.original}

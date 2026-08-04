@@ -121,7 +121,16 @@ export default function LeadForm({
             required
             error={errors.staffName?.message}
           >
-            <TextInput placeholder="John Doe" {...register("staffName")} />
+            <Select {...register("staffName")}>
+              <option value="">Select Staff</option>
+              <option value="Ose David">Ose David</option>
+              <option value="Jackson EdimAyang">Jackson EdimAyang</option>
+              <option value="Obina ">Obina </option>
+              <option value="Wesley">Wesley</option>
+              <option value="Elizerbeth">Elizerbeth</option>
+              <option value="Samson Osiomwan">Samson Osiomwan</option>
+              <option value="Christabel">Christabel</option>
+            </Select>
           </FormField>
 
           <FormField label="Location" required error={errors.location?.message}>

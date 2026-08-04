@@ -209,3 +209,11 @@ export const Footer = styled.div`
     }
   }
 `;
+
+type ModalFooterProps = {
+  children: React.ReactNode;
+};
+
+export function ModalFooter({ children }: ModalFooterProps) {
+  return <Footer>{children}</Footer>;
+}

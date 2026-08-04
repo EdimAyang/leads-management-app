@@ -11,8 +11,10 @@ import { getLeadColumns } from "@/components/table/coulmns";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { leadQuerySchema } from "@/zodSchemas/leads.schema";
 import { Lead, LeadCategory, LeadStatus } from "@/types/leads.types";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import LeadDetailsModal from "@/components/leadModal";
+import UpdateStatusModal from "@/components/upsateStatusModal";
+import { useUpdateLeadStatus } from "@/hooks/useUpdateLeads";
 
 export type FilterValues = {
   category?: string;
@@ -24,31 +26,37 @@ export type FilterValues = {
 const LeadsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Math.max(Number(searchParams.get("page") ?? "1"), 1);
+  const [statusLead, setStatusLead] = useState<Lead | null>(null);
 
   const limit = Math.max(Number(searchParams.get("limit") ?? "10"), 1);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
 
-  const [detailsOpen, setDetailsOpen] = useState(false);
+  const handleUpdateStatus = (lead: Lead) => {
+    setSelectedLead(null);
+    setStatusLead(lead);
+  };
 
+  const handleRowClick = (lead: Lead) => {
+    setSelectedLead(lead);
+  };
   const navigate = useNavigate();
 
   const handleView = (lead: Lead) => {
+    setStatusLead(null);
     setSelectedLead(lead);
-    setDetailsOpen(true);
   };
 
   const handleEdit = (lead: Lead) => {
+    setStatusLead(null);
+    setSelectedLead(null);
     navigate(`/leads/${lead.id}/editLeadPage`);
   };
 
-  const columns = useMemo(
-    () =>
-      getLeadColumns({
-        onView: handleView,
-        onEdit: handleEdit,
-      }),
-    [],
-  );
+  const columns = getLeadColumns({
+    onView: handleView,
+    onEdit: handleEdit,
+    onUpdateStatus: handleUpdateStatus,
+  });
 
   const query = leadQuerySchema.parse({
     page,
@@ -75,48 +83,44 @@ const LeadsPage = () => {
     setSearchParams(params);
   };
 
-  // const handleApplyFilters = (values: FilterValues) => {
-  //   const params = new URLSearchParams(searchParams);
-
-  //   Object.entries(values).forEach(([key, value]) => {
-  //     if (value) {
-  //       params.set(key, value);
-  //     } else {
-  //       params.delete(key);
-  //     }
-  //   });
-
-  //   // Return to first page when filters change
-  //   params.set("page", "1");
-
-  //   setSearchParams(params);
-  // };
-
-  // const handleResetFilters = () => {
-  //   const params = new URLSearchParams(searchParams);
-
-  //   params.delete("category");
-  //   params.delete("status");
-  //   params.delete("staffName");
-  //   params.delete("location");
-
-  //   params.set("page", "1");
-
-  //   setSearchParams(params);
-  // };
+  const mutation = useUpdateLeadStatus();
 
   return (
     <>
-      <LeadDetailsModal
-        open={detailsOpen}
-        lead={selectedLead}
-        onClose={() => setDetailsOpen(false)}
-        onEdit={() => {
-          if (selectedLead) {
+      {selectedLead && (
+        <LeadDetailsModal
+          open
+          lead={selectedLead}
+          onClose={() => {
+            setStatusLead(null);
+            setSelectedLead(null);
+          }}
+          onEdit={() => {
             navigate(`/leads/${selectedLead.id}/editLeadPage`);
-          }
-        }}
-      />
+          }}
+        />
+      )}
+
+      {statusLead && (
+        <UpdateStatusModal
+          open
+          lead={statusLead}
+          loading={mutation.isPending}
+          onClose={() => {
+            setStatusLead(null);
+            setSelectedLead(null);
+          }}
+          onSubmit={async (status) => {
+            await mutation.mutateAsync({
+              id: statusLead.id,
+              status,
+            });
+
+            setStatusLead(null);
+            setSelectedLead(null);
+          }}
+        />
+      )}
       <Container>
         <PageHeader />
 
@@ -138,6 +142,7 @@ const LeadsPage = () => {
               columns={columns}
               loading={isLoading}
               emptyMessage="No leads found."
+              onRowClick={(lead) => handleRowClick(lead)}
             />
 
             <Pagination

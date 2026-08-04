@@ -1,8 +1,12 @@
 import { api } from "@/api/axios";
-import { LeadListResponse, LeadQuery , LeadDetailsResponse} from "@/types/leads.types";
+import {
+  LeadListResponse,
+  LeadQuery,
+  LeadDetailsResponse,
+  LeadStatus,
+} from "@/types/leads.types";
 import { endpoints } from "../endpoints/leads";
 import { CreateLeadInput } from "@/zodSchemas/leads.schema";
-
 
 export const getLeads = async (query: LeadQuery): Promise<LeadListResponse> => {
   const { data } = await api.get(endpoints.leads, {
@@ -18,7 +22,9 @@ export const createLead = async (payload: CreateLeadInput) => {
   return data;
 };
 
-export const getLeadsById = async (id: string): Promise<LeadDetailsResponse> => {
+export const getLeadsById = async (
+  id: string,
+): Promise<LeadDetailsResponse> => {
   const { data } = await api.get(endpoints.getLeadsDetails(id));
 
   return data;
@@ -29,3 +35,8 @@ export const editLead = async (id: string, payload: CreateLeadInput) => {
 
   return data;
 };
+
+export const updateLeadStatus = (id: string, status: LeadStatus) =>
+  api.patch(endpoints.updateLeadsStatus(id), {
+    status,
+  });

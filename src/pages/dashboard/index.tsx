@@ -78,8 +78,24 @@ export const SectionTitle = styled.h2`
 
 export const Grid = styled.div`
   display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
 
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  @media (max-width: 768px) {
+    display: flex;
+    gap: 16px;
 
-  gap: 24px;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scroll-snap-type: x mandatory;
+
+    padding-bottom: 8px;
+
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;

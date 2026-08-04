@@ -6,11 +6,9 @@ type Props = {
   value: number;
   icon: LucideIcon;
   color?: string;
-  subtitle?:string;
-  loading?:string;
+  subtitle?: string;
+  loading?: string;
 };
-
-
 
 export default function DashboardCard({ title, value, icon: Icon }: Props) {
   return (
@@ -49,6 +47,11 @@ export const Card = styled.div`
     transform: translateY(-4px);
 
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+  @media (max-width: 768px) {
+    flex: 0 0 88%;
+
+    scroll-snap-align: start;
   }
 `;
 

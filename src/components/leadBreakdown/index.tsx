@@ -70,8 +70,24 @@ export const Title = styled.h2`
 
 export const Grid = styled.div`
   display: grid;
-
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-
   gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+
+  @media (max-width: 768px) {
+    display: flex;
+    gap: 16px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scroll-snap-type: x mandatory;
+
+    padding-bottom: 8px;
+
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
