@@ -168,12 +168,12 @@ export default function LeadForm({
         footer={
           <Card>
             {onCancel && (
-              <Button variant="secondary" type="button" onClick={onCancel}>
+              <Button variant="secondary" type="button" onClick={onCancel} fullWidth>
                 Cancel
               </Button>
             )}
 
-            <Button type="submit" loading={loading}>
+            <Button type="submit" loading={loading} fullWidth>
               {submitLabel}
             </Button>
           </Card>
