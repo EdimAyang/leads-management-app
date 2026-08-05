@@ -130,6 +130,7 @@ export default function LeadForm({
               <option value="Elizerbeth">Elizerbeth</option>
               <option value="Samson Osiomwan">Samson Osiomwan</option>
               <option value="Christabel">Christabel</option>
+              <option value="Favour">Favour</option>
             </Select>
           </FormField>
 
