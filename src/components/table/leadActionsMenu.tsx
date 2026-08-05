@@ -109,13 +109,13 @@ const LeadActionsMenu = ({
               <Pencil size={18} />
               Edit
             </MenuItem>
-            
-          <MenuItem onClick={onUpdateStatus}>
-            <RefreshCw size={18} />
-            Update Status
-          </MenuItem>
 
-          {/* <MenuItem danger onClick={onDelete}>
+            <MenuItem onClick={onUpdateStatus}>
+              <RefreshCw size={18} />
+              Update Status
+            </MenuItem>
+
+            {/* <MenuItem danger onClick={onDelete}>
             <Trash2 size={18} />
             Delete
           </MenuItem> */}
@@ -151,7 +151,7 @@ export const IconButton = styled.button`
   cursor: pointer;
 
   transition: background 0.2s;
-
+  color: ${({ theme }) => theme.colors.text};
   &:hover {
     background: ${({ theme }) => theme.colors.background};
   }

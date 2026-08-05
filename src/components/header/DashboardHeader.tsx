@@ -2,23 +2,23 @@ import styled from "styled-components";
 // import { Menu } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { useLayoutStore } from "@/store/layout.store";
+import ThemeToggle from "../ui/ThemeToggle";
 
 const titles: Record<string, string> = {
   "/": "Dashboard",
   "/leads": "Leads",
 };
 
-const  Header = ()=> {
+const Header = () => {
   const location = useLocation();
 
-//  const toggleMobileSidebar = useLayoutStore(
-//   (state) => state.toggleMobileSidebar
-// );
+  //  const toggleMobileSidebar = useLayoutStore(
+  //   (state) => state.toggleMobileSidebar
+  // );
 
   const mobileOpen = useLayoutStore((state) => state.mobileOpen);
 
-console.log(mobileOpen);
- 
+  console.log(mobileOpen);
 
   const title = titles[location.pathname] ?? "Virgas Leads";
 
@@ -33,6 +33,7 @@ console.log(mobileOpen);
       </Left>
 
       <Right>
+        <ThemeToggle/>
         <DateText>
           {new Date().toLocaleDateString(undefined, {
             weekday: "long",
@@ -44,9 +45,9 @@ console.log(mobileOpen);
       </Right>
     </HeaderContainer>
   );
-}
+};
 
-export default Header
+export default Header;
 
 export const HeaderContainer = styled.header`
   height: 70px;
@@ -83,7 +84,7 @@ export const Right = styled.div`
 
   align-items: center;
 
-  gap: 16px;
+  gap: 12px;
 `;
 
 export const Title = styled.h2`
