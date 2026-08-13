@@ -16,7 +16,7 @@ const InstallButton = () => {
       leftIcon={<Download size={17} />}
       onClick={install}
     >
-      Install App
+      Install App 
     </Button>
   );
 };
