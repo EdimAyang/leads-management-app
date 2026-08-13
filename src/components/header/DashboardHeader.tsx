@@ -1,8 +1,8 @@
 import styled from "styled-components";
-// import { Menu } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import { useLayoutStore } from "@/store/layout.store";
 import ThemeToggle from "../ui/ThemeToggle";
+import InstallButton from "../installButton";
 
 const titles: Record<string, string> = {
   "/": "Dashboard",
@@ -11,10 +11,6 @@ const titles: Record<string, string> = {
 
 const Header = () => {
   const location = useLocation();
-
-  //  const toggleMobileSidebar = useLayoutStore(
-  //   (state) => state.toggleMobileSidebar
-  // );
 
   const mobileOpen = useLayoutStore((state) => state.mobileOpen);
 
@@ -33,7 +29,8 @@ const Header = () => {
       </Left>
 
       <Right>
-        <ThemeToggle/>
+        <InstallButton />
+        <ThemeToggle />
         <DateText>
           {new Date().toLocaleDateString(undefined, {
             weekday: "long",

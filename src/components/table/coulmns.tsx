@@ -2,7 +2,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Lead } from "@/types/leads.types";
 import LeadActionsMenu from "../table/leadActionsMenu";
 import StatusBadge, { CategoryBadge, PriorityBadge } from "../statusBadge";
-import { TableCellText } from "./tableCell";
+
 
 type LeadColumnsProps = {
   onView: (lead: Lead) => void;
