@@ -4,15 +4,12 @@ import { X } from "lucide-react";
 
 type Props = {
   open: boolean;
-
   title: string;
-
   children: ReactNode;
-
   footer?: ReactNode;
-
   onClose: () => void;
 };
+
 
 export default function Modal({
   open,

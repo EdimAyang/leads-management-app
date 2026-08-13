@@ -7,6 +7,7 @@ export const endpoints = {
   getLeadsDetails:(id:string)=>`leads/${id}`,
   editLeads:(id:string)=>`leads/${id}`,
   updateLeadsStatus:(id:string)=>`leads/${id}/status`,
+  updatePrioritysStatus:(id:string)=>`leads/${id}/priority`,
 
   dashboard: "leads/dashboard/stats",
 };

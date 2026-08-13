@@ -15,14 +15,11 @@ import { useEffect } from "react";
 
 type LeadFormProps = {
   initialValues?: Partial<CreateLeadInput>;
-
   loading?: boolean;
-
   submitLabel: string;
-
   onSubmit: (values: CreateLeadInput) => void | Promise<void>;
-
   onCancel?: () => void;
+  disabled:boolean;
 };
 
 export default function LeadForm({
@@ -31,6 +28,7 @@ export default function LeadForm({
   submitLabel,
   onSubmit,
   onCancel,
+  disabled
 }: LeadFormProps) {
   const {
     register,
@@ -174,7 +172,7 @@ export default function LeadForm({
               </Button>
             )}
 
-            <Button type="submit" loading={loading} fullWidth>
+            <Button type="submit" loading={loading} fullWidth disabled={disabled}>
               {submitLabel}
             </Button>
           </Card>

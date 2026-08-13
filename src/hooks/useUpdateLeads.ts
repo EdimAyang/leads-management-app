@@ -1,9 +1,13 @@
-import { editLead, updateLeadStatus } from "@/api/services/leads.services";
+import {
+  editLead,
+  updateLeadStatus,
+  updatePriorityStatus,
+} from "@/api/services/leads.services";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { CreateLeadInput } from "@/zodSchemas/leads.schema";
-import { LeadStatus } from "@/types/leads.types";
+import { LeadStatus, Priority } from "@/types/leads.types";
 
 export function useUpdateLead() {
   const queryClient = useQueryClient();
@@ -41,6 +45,27 @@ export const useUpdateLeadStatus = () => {
   return useMutation({
     mutationFn: ({ id, status }: { id: string; status: LeadStatus }) =>
       updateLeadStatus(id, status),
+
+    onSuccess: () => {
+      toast.success("Status updated");
+
+      queryClient.invalidateQueries({
+        queryKey: ["leads"],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["dashboard"],
+      });
+    },
+  });
+};
+
+export const useUpdatePriorityStatus = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, priority }: { id: string; priority: Priority }) =>
+      updatePriorityStatus(id, priority),
 
     onSuccess: () => {
       toast.success("Status updated");

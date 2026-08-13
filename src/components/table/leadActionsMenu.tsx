@@ -11,6 +11,7 @@ type Props = {
   onEdit: () => void;
   onDelete?: () => void;
   onUpdateStatus?: () => void;
+  onUpdatePriority?: () => void;
 };
 
 const LeadActionsMenu = ({
@@ -19,6 +20,7 @@ const LeadActionsMenu = ({
   onEdit,
   // onDelete,
   onUpdateStatus,
+  onUpdatePriority,
 }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -113,6 +115,11 @@ const LeadActionsMenu = ({
             <MenuItem onClick={onUpdateStatus}>
               <RefreshCw size={18} />
               Update Status
+            </MenuItem>
+
+            <MenuItem onClick={onUpdatePriority}>
+              <RefreshCw size={18} />
+              Update priority
             </MenuItem>
 
             {/* <MenuItem danger onClick={onDelete}>

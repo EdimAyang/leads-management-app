@@ -1,8 +1,8 @@
-import { Lead, LeadStatus } from "@/types/leads.types";
+import { Lead, Priority } from "@/types/leads.types";
 import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
 import Modal, { ModalFooter } from "@/components/ui/Modal";
-import { StatusSelector } from "@/components/upsateStatusModal/StatusCardSelector";
+import { PrioritySelector } from "./PriorityCardSelector";
 
 
 type Props = {
@@ -10,11 +10,11 @@ type Props = {
   lead: Lead;
   loading?: boolean;
   onClose: () => void;
-  onSubmit: (status: LeadStatus) => void;
+  onSubmit: (priority: Priority) => void;
   disabled:boolean;
 };
 
-export default function UpdateStatusModal({
+export default function UpdatePriorityModal({
   open,
   lead,
   loading,
@@ -22,17 +22,16 @@ export default function UpdateStatusModal({
   onSubmit,
   disabled
 }: Props) {
-  const [status, setStatus] = useState<LeadStatus>(lead.status);
+  const [priority, setPriority] = useState<Priority>(lead.priority);
 
   useEffect(() => {
-    setStatus(lead.status);
+    setPriority(lead.priority);
   }, [lead]);
 
-  if (!open) return null;
-
+  if (!open) return null
   return (
-    <Modal open={open} title="Update Lead Status" onClose={onClose}>
-      <StatusSelector value={status} onChange={setStatus} />
+    <Modal open={open} title="Update Lead Priority" onClose={onClose}>
+      <PrioritySelector value={priority} onChange={setPriority} />
 
       <ModalFooter>
         <Button variant="secondary" onClick={onClose}>
@@ -41,11 +40,11 @@ export default function UpdateStatusModal({
 
         <Button loading={loading} onClick={(e: React.MouseEvent<HTMLButtonElement>) =>{
             e.stopPropagation();
-            onSubmit(status);
+            onSubmit(priority);
         }}
         disabled={disabled}
         >
-          Update Status
+          Update Priority
         </Button>
       </ModalFooter>
     </Modal>

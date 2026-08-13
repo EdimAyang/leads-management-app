@@ -1,13 +1,15 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Lead } from "@/types/leads.types";
 import LeadActionsMenu from "../table/leadActionsMenu";
-import StatusBadge, { CategoryBadge } from "../statusBadge";
+import StatusBadge, { CategoryBadge, PriorityBadge } from "../statusBadge";
+import { TableCellText } from "./tableCell";
 
 type LeadColumnsProps = {
   onView: (lead: Lead) => void;
   onEdit: (lead: Lead) => void;
   onDelete?: (lead: Lead) => void;
   onUpdateStatus?: (lead: Lead) => void;
+  onUpdatePriority?: (lead: Lead) => void;
 };
 
 export const getLeadColumns = ({
@@ -15,6 +17,7 @@ export const getLeadColumns = ({
   onEdit,
   onDelete,
   onUpdateStatus,
+  onUpdatePriority,
 }: LeadColumnsProps): ColumnDef<Lead>[] => [
   {
     accessorKey: "businessName",
@@ -33,6 +36,11 @@ export const getLeadColumns = ({
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => <StatusBadge status={row.original.status} />,
+  },
+  {
+    accessorKey: "priority",
+    header: "Priority",
+    cell: ({ row }) => <PriorityBadge priority={row.original.priority} />,
   },
   {
     accessorKey: "staffName",
@@ -62,6 +70,9 @@ export const getLeadColumns = ({
         onDelete={onDelete ? () => onDelete(row.original) : undefined}
         onUpdateStatus={
           onUpdateStatus ? () => onUpdateStatus(row.original) : undefined
+        }
+        onUpdatePriority={
+          onUpdatePriority ? () => onUpdatePriority(row.original) : undefined
         }
       />
     ),
