@@ -57,6 +57,9 @@ export const useUpdateLeadStatus = () => {
         queryKey: ["dashboard"],
       });
     },
+    onError: () => {
+      toast.error("Faild to update status");
+    },
   });
 };
 
@@ -77,6 +80,9 @@ export const useUpdatePriorityStatus = () => {
       queryClient.invalidateQueries({
         queryKey: ["dashboard"],
       });
+    },
+    onError: () => {
+      toast.error("Faild to update priority");
     },
   });
 };
