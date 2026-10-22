@@ -11,6 +11,7 @@ type Props = {
   onEdit: () => void;
   onDelete?: () => void;
   onUpdateStatus?: () => void;
+  onUpdatePriority?: () => void;
 };
 
 const LeadActionsMenu = ({
@@ -19,6 +20,7 @@ const LeadActionsMenu = ({
   onEdit,
   // onDelete,
   onUpdateStatus,
+  onUpdatePriority,
 }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -109,13 +111,18 @@ const LeadActionsMenu = ({
               <Pencil size={18} />
               Edit
             </MenuItem>
-            
-          <MenuItem onClick={onUpdateStatus}>
-            <RefreshCw size={18} />
-            Update Status
-          </MenuItem>
 
-          {/* <MenuItem danger onClick={onDelete}>
+            <MenuItem onClick={onUpdateStatus}>
+              <RefreshCw size={18} />
+              Update Status
+            </MenuItem>
+
+            <MenuItem onClick={onUpdatePriority}>
+              <RefreshCw size={18} />
+              Update priority
+            </MenuItem>
+
+            {/* <MenuItem danger onClick={onDelete}>
             <Trash2 size={18} />
             Delete
           </MenuItem> */}
@@ -151,7 +158,7 @@ export const IconButton = styled.button`
   cursor: pointer;
 
   transition: background 0.2s;
-
+  color: ${({ theme }) => theme.colors.text};
   &:hover {
     background: ${({ theme }) => theme.colors.background};
   }

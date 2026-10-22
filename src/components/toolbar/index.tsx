@@ -16,14 +16,11 @@ type ToolbarProps = {
   filters: FilterValues;
 };
 
-export default function Toolbar({
-  filters
-}: ToolbarProps) {
+export default function Toolbar({ filters }: ToolbarProps) {
   const [open, setOpen] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("q") ?? "");
-
 
   const handleFilterChange = (key: keyof FilterValues, value?: string) => {
     const params = new URLSearchParams(searchParams);
@@ -214,6 +211,7 @@ export const ResetButton = styled.button`
   background: ${({ theme }) => theme.colors.surface};
 
   cursor: pointer;
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const AddButton = styled.button`

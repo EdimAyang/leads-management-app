@@ -4,6 +4,7 @@ import {
   LeadQuery,
   LeadDetailsResponse,
   LeadStatus,
+  Priority,
 } from "@/types/leads.types";
 import { endpoints } from "../endpoints/leads";
 import { CreateLeadInput } from "@/zodSchemas/leads.schema";
@@ -39,4 +40,10 @@ export const editLead = async (id: string, payload: CreateLeadInput) => {
 export const updateLeadStatus = (id: string, status: LeadStatus) =>
   api.patch(endpoints.updateLeadsStatus(id), {
     status,
+  });
+
+
+  export const updatePriorityStatus = (id: string, priority: Priority) =>
+  api.patch(endpoints.updatePrioritysStatus(id), {
+    priority,
   });

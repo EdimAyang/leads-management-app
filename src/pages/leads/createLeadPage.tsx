@@ -25,6 +25,7 @@ export default function CreateLeadPage() {
         submitLabel="Create Lead"
         loading={mutation.isPending}
         onSubmit={handleCreate}
+        disabled={mutation.isPending}
       />
     </>
   );

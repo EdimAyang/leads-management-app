@@ -17,9 +17,7 @@ export function DataTable<T>({
 }: DataTableProps<T>) {
   const table = useReactTable({
     data,
-
     columns,
-
     getCoreRowModel: getCoreRowModel(),
   });
 

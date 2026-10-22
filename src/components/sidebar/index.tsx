@@ -161,6 +161,7 @@ export const CollapseButton = styled.button`
   justify-content: center;
 
   cursor: pointer;
+    color: ${({ theme }) => theme.colors.text};
 `;
 
 export const Navigation = styled.nav`

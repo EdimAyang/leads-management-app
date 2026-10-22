@@ -1,26 +1,34 @@
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
-export type ButtonVariant = "primary" | "secondary" | "outline" | "destructive";
+export type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "outline"
+  | "destructive"
+  | "ghost";
 
-type StyledButtonProps = {
-  variant: ButtonVariant;
-  fullWidth?: boolean;
-};
-
-
+export type ButtonSize = "sm" | "md" | "lg";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
+  size?: ButtonSize;
   loading?: boolean;
   fullWidth?: boolean;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
 };
 
+type StyledButtonProps = {
+  variant: ButtonVariant;
+  size: ButtonSize;
+  fullWidth?: boolean;
+};
+
 export default function Button({
   children,
   variant = "primary",
+  size = "md",
   loading = false,
   fullWidth = false,
   leftIcon,
@@ -31,6 +39,7 @@ export default function Button({
   return (
     <StyledButton
       variant={variant}
+      size={size}
       fullWidth={fullWidth}
       disabled={disabled || loading}
       {...props}
@@ -38,25 +47,54 @@ export default function Button({
       {loading ? (
         <Spinner />
       ) : (
-        <>
-          {leftIcon}
-          {children}
-          {rightIcon}
-        </>
+        <Content>
+          {leftIcon && <Icon>{leftIcon}</Icon>}
+
+          <span>{children}</span>
+
+          {rightIcon && <Icon>{rightIcon}</Icon>}
+        </Content>
       )}
     </StyledButton>
   );
 }
 
+const sizes = {
+  sm: css`
+    height: 36px;
+    padding: 0 12px;
+    font-size: 14px;
+    border-radius: 10px;
+  `,
+
+  md: css`
+    height: 48px;
+    padding: 0 20px;
+    font-size: 15px;
+    border-radius: 12px;
+  `,
+
+  lg: css`
+    height: 56px;
+    padding: 0 24px;
+    font-size: 16px;
+    border-radius: 14px;
+  `,
+};
+
 const variants = {
   primary: css`
     background: ${({ theme }) => theme.colors.primary};
-    color: #fff;
+    color: white;
     border: 1px solid ${({ theme }) => theme.colors.primary};
 
     &:hover:not(:disabled) {
-      opacity: 0.92;
+      opacity: 0.95;
       transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
     }
   `,
 
@@ -90,17 +128,29 @@ const variants = {
       opacity: 0.9;
     }
   `,
+
+  ghost: css`
+    background: transparent;
+    color: ${({ theme }) => theme.colors.text};
+    border: none;
+
+    min-width: unset;
+
+    &:hover:not(:disabled) {
+      background: ${({ theme }) => theme.colors.background};
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+
+    &:focus-visible {
+      box-shadow: none;
+    }
+  `,
 };
 
 export const StyledButton = styled.button<StyledButtonProps>`
-  height: 48px;
-
-  min-width: 120px;
-
-  padding: 0 20px;
-
-  border-radius: 12px;
-
   display: inline-flex;
 
   align-items: center;
@@ -109,7 +159,9 @@ export const StyledButton = styled.button<StyledButtonProps>`
 
   gap: 8px;
 
-  font-size: 15px;
+  min-width: ${({ variant }) => (variant === "ghost" ? "auto" : "120px")};
+
+  width: ${({ fullWidth }) => (fullWidth ? "100%" : "fit-content")};
 
   font-weight: 600;
 
@@ -117,9 +169,9 @@ export const StyledButton = styled.button<StyledButtonProps>`
 
   transition: all 0.2s ease;
 
-  ${({ variant }) => variants[variant]}
+  ${({ size }) => sizes[size]}
 
-  width: ${({ fullWidth }) => (fullWidth ? "100%" : "auto")};
+  ${({ variant }) => variants[variant]}
 
   &:disabled {
     opacity: 0.6;
@@ -129,12 +181,38 @@ export const StyledButton = styled.button<StyledButtonProps>`
 
   &:focus-visible {
     outline: none;
-
-    box-shadow: 0 0 0 4px rgba(250, 84, 156, 0.18);
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
   }
+`;
+
+const Content = styled.span`
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+`;
+
+const Icon = styled.span`
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-shrink: 0;
 
   svg {
-    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+  }
+`;
+
+const spin = keyframes`
+  to{
+    transform:rotate(360deg);
   }
 `;
 
@@ -147,13 +225,7 @@ export const Spinner = styled.div`
 
   border: 2px solid rgba(255, 255, 255, 0.35);
 
-  border-top-color: white;
+  border-top-color: currentColor;
 
-  animation: spin 0.8s linear infinite;
-
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
+  animation: ${spin} 0.8s linear infinite;
 `;

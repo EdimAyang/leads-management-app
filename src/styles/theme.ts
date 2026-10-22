@@ -1,6 +1,7 @@
 import type { DefaultTheme } from "styled-components";
 
 export const theme: DefaultTheme = {
+  mode: "dark",
   layout: {
     sidebar: {
       expanded: "260px",

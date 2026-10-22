@@ -1,36 +1,54 @@
 import styled from "styled-components";
 import { ReactNode } from "react";
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import Button from "@/components/ui/Button";
 
 type Props = {
   title: string;
   subtitle?: string;
   actions?: ReactNode;
+  showBack?: boolean;
+  backLabel?: string;
+  onBack?: () => void;
+  rightSlot?: React.ReactNode;
 };
+
+export type ButtonSize = "sm" | "md" | "lg";
 
 export default function PageHeader({
   title,
   subtitle,
-  actions,
+  showBack = true,
+  rightSlot,
 }: Props) {
+  const navigate = useNavigate();
+
   return (
     <Container>
       <Left>
-        <Title>{title}</Title>
-
-        {subtitle && (
-          <Subtitle>{subtitle}</Subtitle>
+        {showBack && (
+          <Button
+            variant="ghost"
+            size="sm"
+            leftIcon={<ArrowLeft size={18} />}
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </Button>
         )}
+
+        <div>
+          <Title>{title}</Title>
+
+          {subtitle && <Subtitle>{subtitle}</Subtitle>}
+        </div>
       </Left>
 
-      {actions && (
-        <Actions>
-          {actions}
-        </Actions>
-      )}
+      {rightSlot}
     </Container>
   );
 }
-
 
 export const Container = styled.div`
   display: flex;

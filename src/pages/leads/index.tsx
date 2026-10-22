@@ -14,7 +14,8 @@ import { Lead, LeadCategory, LeadStatus } from "@/types/leads.types";
 import { useState } from "react";
 import LeadDetailsModal from "@/components/leadModal";
 import UpdateStatusModal from "@/components/upsateStatusModal";
-import { useUpdateLeadStatus } from "@/hooks/useUpdateLeads";
+import { useUpdateLeadStatus, useUpdatePriorityStatus } from "@/hooks/useUpdateLeads";
+import UpdatePriorityModal from "@/components/updatePriorityModal";
 
 export type FilterValues = {
   category?: string;
@@ -27,6 +28,7 @@ const LeadsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Math.max(Number(searchParams.get("page") ?? "1"), 1);
   const [statusLead, setStatusLead] = useState<Lead | null>(null);
+  const [priorityLead, setPriorityLead] = useState<Lead | null>(null);
 
   const limit = Math.max(Number(searchParams.get("limit") ?? "10"), 1);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
@@ -34,6 +36,11 @@ const LeadsPage = () => {
   const handleUpdateStatus = (lead: Lead) => {
     setSelectedLead(null);
     setStatusLead(lead);
+  };
+
+  const handleUpdatePriority = (lead: Lead) => {
+    setSelectedLead(null);
+    setPriorityLead(lead);
   };
 
   const handleRowClick = (lead: Lead) => {
@@ -56,6 +63,7 @@ const LeadsPage = () => {
     onView: handleView,
     onEdit: handleEdit,
     onUpdateStatus: handleUpdateStatus,
+    onUpdatePriority: handleUpdatePriority,
   });
 
   const query = leadQuerySchema.parse({
@@ -83,7 +91,8 @@ const LeadsPage = () => {
     setSearchParams(params);
   };
 
-  const mutation = useUpdateLeadStatus();
+  const statusMutation = useUpdateLeadStatus();
+  const priorityMutation = useUpdatePriorityStatus()
 
   return (
     <>
@@ -94,6 +103,7 @@ const LeadsPage = () => {
           onClose={() => {
             setStatusLead(null);
             setSelectedLead(null);
+            setPriorityLead(null)
           }}
           onEdit={() => {
             navigate(`/leads/${selectedLead.id}/editLeadPage`);
@@ -105,19 +115,46 @@ const LeadsPage = () => {
         <UpdateStatusModal
           open
           lead={statusLead}
-          loading={mutation.isPending}
+          loading={statusMutation.isPending}
+          disabled={statusMutation.isPending}
           onClose={() => {
             setStatusLead(null);
             setSelectedLead(null);
+            setPriorityLead(null)
           }}
           onSubmit={async (status) => {
-            await mutation.mutateAsync({
+            await statusMutation.mutateAsync({
               id: statusLead.id,
               status,
             });
 
             setStatusLead(null);
             setSelectedLead(null);
+            setPriorityLead(null)
+          }}
+        />
+      )}
+
+       {priorityLead && (
+        <UpdatePriorityModal
+          open
+          lead={priorityLead}
+          loading={priorityMutation.isPending}
+          disabled={priorityMutation.isPending}
+          onClose={() => {
+            setStatusLead(null);
+            setSelectedLead(null);
+            setPriorityLead(null)
+          }}
+          onSubmit={async (priority) => {
+            await priorityMutation.mutateAsync({
+              id: priorityLead.id,
+              priority,
+            });
+
+            setStatusLead(null);
+            setSelectedLead(null);
+            setPriorityLead(null)
           }}
         />
       )}

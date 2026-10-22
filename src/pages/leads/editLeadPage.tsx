@@ -37,6 +37,7 @@ import LoadingScreen from "@/components/ui/LoadingScreen";
         loading={mutation.isPending}
         onSubmit={handleUpdate}
         onCancel={() => navigate(-1)}
+        disabled={mutation.isPending}
       />
     </>
   );

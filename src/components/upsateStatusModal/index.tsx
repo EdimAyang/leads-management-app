@@ -11,6 +11,7 @@ type Props = {
   loading?: boolean;
   onClose: () => void;
   onSubmit: (status: LeadStatus) => void;
+  disabled:boolean;
 };
 
 export default function UpdateStatusModal({
@@ -19,6 +20,7 @@ export default function UpdateStatusModal({
   loading,
   onClose,
   onSubmit,
+  disabled
 }: Props) {
   const [status, setStatus] = useState<LeadStatus>(lead.status);
 
@@ -40,7 +42,9 @@ export default function UpdateStatusModal({
         <Button loading={loading} onClick={(e: React.MouseEvent<HTMLButtonElement>) =>{
             e.stopPropagation();
             onSubmit(status);
-        }}>
+        }}
+        disabled={disabled}
+        >
           Update Status
         </Button>
       </ModalFooter>

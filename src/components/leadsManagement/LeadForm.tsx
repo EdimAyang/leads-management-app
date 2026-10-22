@@ -87,14 +87,11 @@ function getBranch(initialValues?: Partial<CreateLeadInput>): Branch {
 
 type LeadFormProps = {
   initialValues?: Partial<CreateLeadInput>;
-
   loading?: boolean;
-
   submitLabel: string;
-
   onSubmit: (values: CreateLeadInput) => void | Promise<void>;
-
   onCancel?: () => void;
+  disabled:boolean;
 };
 
 export default function LeadForm({
@@ -103,6 +100,7 @@ export default function LeadForm({
   submitLabel,
   onSubmit,
   onCancel,
+  disabled
 }: LeadFormProps) {
   const [branch, setBranch] = useState<Branch>("Benin");
   const {
@@ -254,12 +252,12 @@ export default function LeadForm({
         footer={
           <Card>
             {onCancel && (
-              <Button variant="secondary" type="button" onClick={onCancel}>
+              <Button variant="secondary" type="button" onClick={onCancel} fullWidth>
                 Cancel
               </Button>
             )}
 
-            <Button type="submit" loading={loading}>
+            <Button type="submit" loading={loading} fullWidth disabled={disabled}>
               {submitLabel}
             </Button>
           </Card>

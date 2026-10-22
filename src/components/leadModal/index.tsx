@@ -14,7 +14,7 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Grid from "@/components/ui/Grid";
 import Modal from "@/components/ui/Modal";
-import StatusBadge from "../statusBadge";
+import StatusBadge, { PriorityBadge } from "../statusBadge";
 import { Lead } from "@/types/leads.types";
 import DetailItem from "@/components/detailItem";
 
@@ -78,6 +78,14 @@ export default function LeadDetailsModal({
               value={
                 <StatusBadge
                   status={lead.status}
+                />
+              }
+            />
+            <DetailItem
+              label="Priority"
+              value={
+                <PriorityBadge
+                  priority={lead.priority}
                 />
               }
             />
