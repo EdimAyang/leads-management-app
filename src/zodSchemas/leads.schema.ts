@@ -30,13 +30,13 @@ export const leadQuerySchema = z.object({
 export type LeadQuery = z.infer<typeof leadQuerySchema>;
 
 export const createLeadSchema = z.object({
-  businessName: z.string().min(2),
+  businessName: z.string().min(2, 'Business name is required'),
 
-  phoneNumber: z.string().min(11).optional(),
+  phoneNumber: z.string().min(11, 'Phone number must be at least 11 characters long').optional(),
 
-  address: z.string().min(5),
+  address: z.string().min(5, 'Address is required'),
 
-  location: z.string().min(2),
+  location: z.string().min(2, 'Location is required'),
 
   category: z.enum(["HOTEL", "RESTAURANT", "BAKERY"]),
 
@@ -50,7 +50,7 @@ export const createLeadSchema = z.object({
     "NOT_INTERESTED",
     "INACTIVE",
   ]),
-  staffName: z.string().min(1),
+  staffName: z.string().min(1, 'Staff name is required'),
 
   notes: z.string().optional(),
 });

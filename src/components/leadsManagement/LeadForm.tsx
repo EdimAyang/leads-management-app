@@ -11,7 +11,79 @@ import TextArea from "../ui/TextArea";
 import { FileText } from "lucide-react";
 import { Building2 } from "lucide-react";
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+type Branch = "Benin" | "Lagos";
+
+const branchOptions: Record<Branch, { staff: string[]; locations: string[] }> =
+  {
+    Benin: {
+      staff: [
+        "Ose David",
+        "Jackson EdimAyang",
+        "Obina ",
+        "Wesley",
+        "Elizerbeth",
+        "Samson Osiomwan",
+        "Christabel",
+      ],
+      locations: [
+        "Sapele Road",
+        "GRA",
+        "Ugbowo",
+        "Upper mission road",
+        "Airport Road",
+        "Ekewan road",
+        "Adesuwa",
+        "Oluku",
+      ],
+    },
+    Lagos: {
+      staff: ["Samson Osiomwan", "sofia ", "Ose David", "Ijeoma"],
+      locations: [
+        "Ikeja",
+        "Lekki",
+        "Victoria Island",
+        "Surulere",
+        "Yaba",
+        "Ajah",
+        "Ikorodu",
+        "Epe",
+        "Abijo GRA",
+        "Lekki Phase 1",
+        "Lekki Phase 2",
+        "Ikoyi",
+        "Magodo",
+        "Ojodu",
+        "Ogba",
+        "Mushin",
+        "Agege",
+        "Festac Town",
+        "Isolo",
+        "Oshodi",
+        "Shomolu",
+        "Abraham Adesanya",
+        "Ikotun",
+        "Alimosho",
+        "Egbeda",
+        "Iyana Ipaja",
+        "Bariga",
+        "Apapa",
+        "Badagry",
+        "Epe Town",
+        "Ibeju-Lekki",
+      ],
+    },
+  };
+
+function getBranch(initialValues?: Partial<CreateLeadInput>): Branch {
+  const lagosOptions = branchOptions.Lagos;
+
+  return lagosOptions.staff.includes(initialValues?.staffName ?? "") ||
+    lagosOptions.locations.includes(initialValues?.location ?? "")
+    ? "Lagos"
+    : "Benin";
+}
 
 type LeadFormProps = {
   initialValues?: Partial<CreateLeadInput>;
@@ -30,11 +102,14 @@ export default function LeadForm({
   onCancel,
   disabled
 }: LeadFormProps) {
+  const [branch, setBranch] = useState<Branch>("Benin");
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
+    clearErrors,
   } = useForm<CreateLeadInput>({
     resolver: zodResolver(createLeadSchema),
 
@@ -54,6 +129,7 @@ export default function LeadForm({
 
   useEffect(() => {
     if (initialValues) {
+      setBranch(getBranch(initialValues));
       reset({
         businessName: "",
         phoneNumber: "",
@@ -114,6 +190,21 @@ export default function LeadForm({
             </Select>
           </FormField>
 
+          <FormField label="Branch" required>
+            <Select
+              value={branch}
+              onChange={(event) => {
+                setBranch(event.target.value as Branch);
+                setValue("staffName", "");
+                setValue("location", "");
+                clearErrors(["staffName", "location"]);
+              }}
+            >
+              <option value="Benin">Benin</option>
+              <option value="Lagos">Lagos</option>
+            </Select>
+          </FormField>
+
           <FormField
             label="Assign Staff"
             required
@@ -121,28 +212,22 @@ export default function LeadForm({
           >
             <Select {...register("staffName")}>
               <option value="">Select Staff</option>
-              <option value="Ose David">Ose David</option>
-              <option value="Jackson EdimAyang">Jackson EdimAyang</option>
-              <option value="Obina ">Obina </option>
-              <option value="Wesley">Wesley</option>
-              <option value="Elizerbeth">Elizerbeth</option>
-              <option value="Samson Osiomwan">Samson Osiomwan</option>
-              <option value="Christabel">Christabel</option>
-              <option value="Favour">Favour</option>
+              {branchOptions[branch].staff.map((staffName) => (
+                <option key={staffName} value={staffName}>
+                  {staffName}
+                </option>
+              ))}
             </Select>
           </FormField>
 
           <FormField label="Location" required error={errors.location?.message}>
             <Select {...register("location")}>
               <option value="">Select Location</option>
-              <option value="Sapele Road">Sapele Road</option>
-              <option value="GRA">GRA</option>
-              <option value="Ugbowo">Ugbowo</option>
-              <option value="Upper mission road">Upper mission road</option>
-              <option value="Airport Road">Airport Road</option>
-              <option value="Ekewan road">Ekewan road</option>
-              <option value="Adesuwa">Adesuwa</option>
-              <option value="Oluku">Oluku</option>
+              {branchOptions[branch].locations.map((location) => (
+                <option key={location} value={location}>
+                  {location}
+                </option>
+              ))}
             </Select>
           </FormField>
 

@@ -21,7 +21,12 @@ export default function CreateLeadPage() {
     <>
       <PageHeader title="Create Lead" subtitle="Capture a new business lead." />
 
-      <LeadForm submitLabel="Create Lead" onSubmit={handleCreate} disabled={mutation.isPending}/>
+      <LeadForm
+        submitLabel="Create Lead"
+        loading={mutation.isPending}
+        onSubmit={handleCreate}
+        disabled={mutation.isPending}
+      />
     </>
   );
 }
