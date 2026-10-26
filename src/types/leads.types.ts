@@ -10,7 +10,7 @@ export type Status =
 
 export type Priority = "HIGH" | "MEDIUM" | "LOW";
 
-export type LeadCategory = "HOTEL" | "RESTAURANT" | "BAKERY";
+export type LeadCategory = "HOTEL" | "RESTAURANT" | "BAKERY" | "VENDOR";
 
 export type LeadStatus =
   | "NEW"
