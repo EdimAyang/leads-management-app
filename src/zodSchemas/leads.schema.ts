@@ -7,7 +7,7 @@ export const leadQuerySchema = z.object({
 
   q: z.string().optional(),
 
-  category: z.enum(["HOTEL", "RESTAURANT", "BAKERY"]).optional(),
+  category: z.enum(["HOTEL", "RESTAURANT", "BAKERY", "VENDOR"]).optional(),
 
   status: z
     .enum([
@@ -38,7 +38,7 @@ export const createLeadSchema = z.object({
 
   location: z.string().min(2, 'Location is required'),
 
-  category: z.enum(["HOTEL", "RESTAURANT", "BAKERY"]),
+  category: z.enum(["HOTEL", "RESTAURANT", "BAKERY", "VENDOR"]),
 
   status: z.enum([
     "NEW",

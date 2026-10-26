@@ -4,6 +4,7 @@ import {
   Hotel,
   UtensilsCrossed,
   Croissant,
+  Factory
 } from "lucide-react";
 import { PRIORITY_META } from "@/lib/constants/priority";
 
@@ -186,7 +187,7 @@ export const Badge = styled.span<{ status: keyof typeof variants }>`
 `;
 
 type categoryProps = {
-  category: "HOTEL" | "RESTAURANT" | "BAKERY";
+  category: "HOTEL" | "RESTAURANT" | "BAKERY" | "VENDOR";
 };
 
 export function CategoryBadge({ category }: categoryProps) {
@@ -202,6 +203,10 @@ export function CategoryBadge({ category }: categoryProps) {
     BAKERY: {
       icon: Croissant,
       label: "Bakery",
+    },
+    VENDOR: {
+      icon: Factory,
+      label: "Vendor",
     },
   };
 

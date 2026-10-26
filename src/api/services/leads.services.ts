@@ -9,6 +9,25 @@ import {
 import { endpoints } from "../endpoints/leads";
 import { CreateLeadInput } from "@/zodSchemas/leads.schema";
 
+type CreateLeadResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    id: string;
+    businessName: string;
+    phoneNumber: string;
+    address: string;
+    category: string;
+    status: string;
+    priority: string;
+    staffName: string;
+    notes: string;
+    location: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+};
+
 export const getLeads = async (query: LeadQuery): Promise<LeadListResponse> => {
   const { data } = await api.get(endpoints.leads, {
     params: query,
@@ -17,8 +36,10 @@ export const getLeads = async (query: LeadQuery): Promise<LeadListResponse> => {
   return data;
 };
 
-export const createLead = async (payload: CreateLeadInput) => {
-  const { data } = await api.post(endpoints.createLeads, payload);
+export const createLead = async (
+  payload: CreateLeadInput,
+): Promise<CreateLeadResponse> => {
+  const { data } = await api.post<CreateLeadResponse>(endpoints.createLeads, payload);
 
   return data;
 };
@@ -42,8 +63,7 @@ export const updateLeadStatus = (id: string, status: LeadStatus) =>
     status,
   });
 
-
-  export const updatePriorityStatus = (id: string, priority: Priority) =>
+export const updatePriorityStatus = (id: string, priority: Priority) =>
   api.patch(endpoints.updatePrioritysStatus(id), {
     priority,
   });
