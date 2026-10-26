@@ -174,6 +174,7 @@ export default function LeadForm({
               <option value="HOTEL">Hotel</option>
               <option value="RESTAURANT">Restaurant</option>
               <option value="BAKERY">Bakery</option>
+               <option value="VENDOR">Vendor</option>
             </Select>
           </FormField>
 

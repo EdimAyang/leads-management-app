@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { createLead } from "@/api/services/leads.services";
+import { getErrorMessage } from "@/utils/getEerror";
 
 export function useCreateLead() {
   const queryClient = useQueryClient();
@@ -12,8 +13,8 @@ export function useCreateLead() {
   return useMutation({
     mutationFn: createLead,
 
-    onSuccess: () => {
-      toast.success("Lead created successfully");
+    onSuccess: (data) => {
+      toast.success(data.message);
 
       queryClient.invalidateQueries({
         queryKey: ["leads"],
@@ -26,8 +27,10 @@ export function useCreateLead() {
       navigate("/leads");
     },
 
-    onError: (error) => {
-      toast.error(error.message);
+    onError: (error: unknown) => {
+      const err = getErrorMessage(error, 'Fail to create');
+
+      toast.error(err);
     },
   });
 }

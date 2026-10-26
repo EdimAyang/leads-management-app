@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { CreateLeadInput } from "@/zodSchemas/leads.schema";
 import { LeadStatus, Priority } from "@/types/leads.types";
+import { getErrorMessage } from "@/utils/getEerror";
 
 export function useUpdateLead() {
   const queryClient = useQueryClient();
@@ -32,8 +33,8 @@ export function useUpdateLead() {
     },
 
     onError: (error: unknown) => {
-      const message =
-        error instanceof Error ? error.message : "Failed to update lead";
+      const message = getErrorMessage(error, "Failed to update");
+
       toast.error(message);
     },
   });
@@ -57,8 +58,10 @@ export const useUpdateLeadStatus = () => {
         queryKey: ["dashboard"],
       });
     },
-    onError: () => {
-      toast.error("Faild to update status");
+    onError: (error: unknown) => {
+      const message = getErrorMessage(error, "Failed to update");
+
+      toast.error(message);
     },
   });
 };
@@ -81,8 +84,10 @@ export const useUpdatePriorityStatus = () => {
         queryKey: ["dashboard"],
       });
     },
-    onError: () => {
-      toast.error("Faild to update priority");
+    onError: (error:unknown) => {
+       const message = getErrorMessage(error, 'Failed to update');
+
+      toast.error(message);
     },
   });
 };

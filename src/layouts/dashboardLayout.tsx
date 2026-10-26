@@ -54,7 +54,7 @@ export const Content = styled.div<ContentProps>`
 
 export const Main = styled.main`
   flex: 1;
-  padding: 24px;
+  padding: 10px;
   overflow-y: auto;
   min-width: 0;
    @media (max-width: 768px) {
